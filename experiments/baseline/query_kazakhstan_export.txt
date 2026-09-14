@@ -1,0 +1,37 @@
+Experiment: Baseline TF-IDF
+Date: 2026-09-14
+Corpus: toy
+Number of documents: 34
+Query: Казахстан экспорт
+
+Scoring:
+TF-IDF = TF × IDF
+
+IDF:
+log(N / DF)
+
+Tokenization:
+whitespace + basic punctuation removal
+
+Normalization:
+none
+
+Morphology:
+none
+
+Case normalization:
+none
+
+Results (ranked by TF-IDF score):
+1. 032.txt  16.782299880392813
+2. 034.txt  9.584613060910305
+3. 003.txt  3.3638415951183864
+4. 031.txt  3.3638415951183864
+5. 033.txt  1.916922612182061
+6. 008.txt  1.4469189829363254
+7. 012.txt  1.4469189829363254
+8. 016.txt  1.4469189829363254
+9. 021.txt  1.4469189829363254
+10. 029.txt  1.4469189829363254
+
+Other documents: 0

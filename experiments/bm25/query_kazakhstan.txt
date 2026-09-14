@@ -1,0 +1,39 @@
+Experiment: BM25
+Date: 2026-09-14
+Corpus: toy
+Number of documents: 34
+Query: Казахстан
+
+Scoring:
+BM25
+
+IDF:
+log((N - DF + 0.5) / (DF + 0.5))
+
+Parameters:
+k1 = 1.5
+b = 0.75
+
+Tokenization:
+whitespace + basic punctuation removal
+
+Normalization:
+none
+
+Morphology:
+none
+
+Case normalization:
+none
+
+Results (ranked by BM25 score):
+1. 031.txt  1.4969654747195873
+2. 003.txt  1.2643828724021495
+3. 021.txt  1.2643828724021495
+4. 008.txt  1.1732400787731607
+5. 029.txt  1.0943537979327769
+6. 012.txt  1.0943537979327769
+7. 016.txt  1.0254074808301559
+8. 032.txt  0.9106608400790029
+
+Other documents: 0
