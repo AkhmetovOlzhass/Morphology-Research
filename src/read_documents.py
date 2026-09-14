@@ -55,7 +55,6 @@ for item, count in dfCounts.items():
 print()
 
 IDFDict = {}
-
 print("IDF: ")
 
 for item, count in dfCounts.items():
@@ -68,3 +67,19 @@ for name, sen in allWordsArr.items():
     for item, TF in sen.items():
         print(item, ": ", TF * IDFDict[item])
     print()
+
+searchWords = input("Search word: ").split()
+
+searchResults = {}
+
+for name, sen in allWordsArr.items():
+    sumRes = 0
+    for item, TF in sen.items():
+        TFIDF = TF * IDFDict[item]
+        for st in searchWords:
+            if(st == item):
+                sumRes += TFIDF
+    searchResults[name] = sumRes
+
+sortedSearchResults = dict(sorted(searchResults.items(), key=lambda item: item[1], reverse=True))
+print(sortedSearchResults)
