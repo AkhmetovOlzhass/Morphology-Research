@@ -1,0 +1,41 @@
+Experiment: BM25
+Date: 2026-09-14
+Corpus: toy
+Number of documents: 34
+Query: Казахстан экспорт
+
+Scoring:
+BM25
+
+IDF:
+log((N - DF + 0.5) / (DF + 0.5))
+
+Parameters:
+k1 = 1.5
+b = 0.75
+
+Tokenization:
+whitespace + basic punctuation removal
+
+Normalization:
+none
+
+Morphology:
+none
+
+Case normalization:
+none
+
+Results (ranked by BM25 score):
+1. 032.txt  4.229595125061889
+2. 031.txt  3.7082166648158266
+3. 034.txt  3.3602049463095773
+4. 003.txt  3.132073329231342
+5. 033.txt  2.709698972173182
+6. 021.txt  1.2643828724021495
+7. 008.txt  1.1732400787731607
+8. 029.txt  1.0943537979327769
+9. 012.txt  1.0943537979327769
+10. 016.txt  1.0254074808301559
+
+Other documents: 0

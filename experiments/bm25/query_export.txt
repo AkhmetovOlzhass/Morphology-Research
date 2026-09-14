@@ -1,0 +1,36 @@
+Experiment: BM25
+Date: 2026-09-14
+Corpus: toy
+Number of documents: 34
+Query: экспорт
+
+Scoring:
+BM25
+
+IDF:
+log((N - DF + 0.5) / (DF + 0.5))
+
+Parameters:
+k1 = 1.5
+b = 0.75
+
+Tokenization:
+whitespace + basic punctuation removal
+
+Normalization:
+none
+
+Morphology:
+none
+
+Case normalization:
+none
+
+Results (ranked by BM25 score):
+1. 034.txt  3.3602049463095773
+2. 032.txt  3.3189342849828853
+3. 033.txt  2.709698972173182
+4. 031.txt  2.211251190096239
+5. 003.txt  1.867690456829192
+
+Other documents: 0

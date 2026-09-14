@@ -1,0 +1,35 @@
+Experiment: Baseline TF-IDF
+Date: 2026-09-14
+Corpus: toy
+Number of documents: 34
+Query: Казахстан
+
+Scoring:
+TF-IDF = TF × IDF
+
+IDF:
+log(N / DF)
+
+Tokenization:
+whitespace + basic punctuation removal
+
+Normalization:
+none
+
+Morphology:
+none
+
+Case normalization:
+none
+
+Results (ranked by TF-IDF score):
+1. 003.txt  1.4469189829363254
+2. 008.txt  1.4469189829363254
+3. 012.txt  1.4469189829363254
+4. 016.txt  1.4469189829363254
+5. 021.txt  1.4469189829363254
+6. 029.txt  1.4469189829363254
+7. 031.txt  1.4469189829363254
+8. 032.txt  1.4469189829363254
+
+Other documents: 0
