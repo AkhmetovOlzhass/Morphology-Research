@@ -1,4 +1,5 @@
 import os
+import math
 import re
 from collections import Counter
 
@@ -10,6 +11,7 @@ print("Files and directories in '", path, "' :")
 print(dir_list)
 
 dfArr = []
+allWordsArr = {}
 
 for el in dir_list:
     file1 = open(path+el, 'r')
@@ -33,17 +35,36 @@ for el in dir_list:
         allWords += words
 
     counts = Counter(allWords)
+    allWordsArr[el] = counts
 
     for item, count in counts.items():
         dfArr.append(item);
+
     print("Word frequencies: ")
     print(counts)
     file1.close()
     print()
 
 dfCounts = Counter(dfArr)
-
+numDocs = len(dir_list)
 print("DF: ")
 
 for item, count in dfCounts.items():
     print(f"{item}: {count}")
+
+print()
+
+IDFDict = {}
+
+print("IDF: ")
+
+for item, count in dfCounts.items():
+    IDF = math.log(numDocs/count)
+    IDFDict[item] = IDF
+    print(f"{item}: {IDF}")
+
+for name, sen in allWordsArr.items():
+    print(name)
+    for item, TF in sen.items():
+        print(item, ": ", TF * IDFDict[item])
+    print()
