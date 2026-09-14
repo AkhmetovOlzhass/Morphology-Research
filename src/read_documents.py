@@ -9,6 +9,8 @@ dir_list = os.listdir(path)
 print("Files and directories in '", path, "' :")
 print(dir_list)
 
+dfArr = []
+
 for el in dir_list:
     file1 = open(path+el, 'r')
     Lines = file1.readlines()
@@ -30,7 +32,18 @@ for el in dir_list:
         print("Words: ", words)
         allWords += words
 
+    counts = Counter(allWords)
+
+    for item, count in counts.items():
+        dfArr.append(item);
     print("Word frequencies: ")
-    print(Counter(allWords))
+    print(counts)
     file1.close()
     print()
+
+dfCounts = Counter(dfArr)
+
+print("DF: ")
+
+for item, count in dfCounts.items():
+    print(f"{item}: {count}")
