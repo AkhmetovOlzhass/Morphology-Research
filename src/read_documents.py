@@ -3,6 +3,15 @@ import math
 import re
 from collections import Counter
 
+from evaluation import (
+    precision_at_k,
+    recall_at_k,
+    reciprocal_rank,
+    mean_reciprocal_rank,
+    mean_metric_at_k,
+    ndcg_at_k
+)
+
 path = r"/Users/olzhas/work/morphology_research/data/toy/documents/"
 
 
@@ -85,8 +94,8 @@ def print_tfidf_details(allWordsArr, documentLengths, IDFDict):
         print()
 
 
-def search_tfidf(allWordsArr, IDFDict):
-    searchWords = input("Search words: ").split()
+def search_tfidf(allWordsArr, IDFDict, query):
+    searchWords = query.split()
 
     searchResults = {}
 
@@ -116,8 +125,8 @@ def compute_bm25_idf(dfCounts, numDocs):
         bm25IDF[item] = IDF
     return bm25IDF
 
-def search_bm25(allWordsArr, documentLengths, bm25IDF, avgdl):
-    searchWords = input("Search words: ").split()
+def search_bm25(allWordsArr, documentLengths, bm25IDF, avgdl, query):
+    searchWords = query.split()
     
     k1 = 1.5
     b = 0.75
@@ -133,6 +142,162 @@ def search_bm25(allWordsArr, documentLengths, bm25IDF, avgdl):
     return sortedBm25Result
 
 def main():
+    rankingsBM = {}
+    rankingsTFIDF = {}
+
+    queries = {
+        "q001": "Казахстан экспорт",
+        "q002": "Алматы технологии",
+        "q003": "Казахстан нефть",
+        "q004": "международный турнир",
+    }   
+
+    qrels = {
+        "q001": {
+            "001.txt": 0,
+            "002.txt": 0,
+            "003.txt": 1,
+            "004.txt": 0,
+            "005.txt": 0,
+            "006.txt": 0,
+            "007.txt": 0,
+            "008.txt": 0,
+            "009.txt": 0,
+            "010.txt": 0,
+            "011.txt": 0,
+            "012.txt": 1,
+            "013.txt": 0,
+            "014.txt": 0,
+            "015.txt": 0,
+            "016.txt": 0,
+            "017.txt": 0,
+            "018.txt": 0,
+            "019.txt": 0,
+            "020.txt": 0,
+            "021.txt": 0,
+            "022.txt": 0,
+            "023.txt": 0,
+            "024.txt": 0,
+            "025.txt": 0,
+            "026.txt": 0,
+            "027.txt": 0,
+            "028.txt": 0,
+            "029.txt": 0,
+            "030.txt": 0,
+            "031.txt": 1,
+            "032.txt": 1,
+            "033.txt": 0,
+            "034.txt": 0,
+        },
+        "q002": {
+            "001.txt": 0,
+            "002.txt": 1,
+            "003.txt": 0,
+            "004.txt": 0,
+            "005.txt": 0,
+            "006.txt": 0,
+            "007.txt": 0,
+            "008.txt": 0,
+            "009.txt": 0,
+            "010.txt": 0,
+            "011.txt": 0,
+            "012.txt": 0,
+            "013.txt": 0,
+            "014.txt": 0,
+            "015.txt": 1,
+            "016.txt": 0,
+            "017.txt": 0,
+            "018.txt": 0,
+            "019.txt": 0,
+            "020.txt": 0,
+            "021.txt": 0,
+            "022.txt": 0,
+            "023.txt": 0,
+            "024.txt": 0,
+            "025.txt": 0,
+            "026.txt": 0,
+            "027.txt": 0,
+            "028.txt": 0,
+            "029.txt": 0,
+            "030.txt": 0,
+            "031.txt": 0,
+            "032.txt": 0,
+            "033.txt": 0,
+            "034.txt": 0,
+        },
+        "q003": {
+            "001.txt": 0,
+            "002.txt": 0,
+            "003.txt": 0,
+            "004.txt": 0,
+            "005.txt": 0,
+            "006.txt": 0,
+            "007.txt": 0,
+            "008.txt": 0,
+            "009.txt": 0,
+            "010.txt": 0,
+            "011.txt": 0,
+            "012.txt": 1,
+            "013.txt": 0,
+            "014.txt": 0,
+            "015.txt": 0,
+            "016.txt": 0,
+            "017.txt": 0,
+            "018.txt": 0,
+            "019.txt": 0,
+            "020.txt": 0,
+            "021.txt": 0,
+            "022.txt": 0,
+            "023.txt": 0,
+            "024.txt": 0,
+            "025.txt": 0,
+            "026.txt": 0,
+            "027.txt": 0,
+            "028.txt": 0,
+            "029.txt": 0,
+            "030.txt": 0,
+            "031.txt": 0,
+            "032.txt": 0,
+            "033.txt": 0,
+            "034.txt": 0,
+        },
+        "q004": {
+            "001.txt": 0,
+            "002.txt": 0,
+            "003.txt": 0,
+            "004.txt": 0,
+            "005.txt": 0,
+            "006.txt": 0,
+            "007.txt": 0,
+            "008.txt": 0,
+            "009.txt": 1,
+            "010.txt": 0,
+            "011.txt": 0,
+            "012.txt": 0,
+            "013.txt": 0,
+            "014.txt": 0,
+            "015.txt": 0,
+            "016.txt": 0,
+            "017.txt": 0,
+            "018.txt": 1,
+            "019.txt": 0,
+            "020.txt": 0,
+            "021.txt": 0,
+            "022.txt": 0,
+            "023.txt": 0,
+            "024.txt": 0,
+            "025.txt": 0,
+            "026.txt": 0,
+            "027.txt": 1,
+            "028.txt": 0,
+            "029.txt": 0,
+            "030.txt": 0,
+            "031.txt": 0,
+            "032.txt": 0,
+            "033.txt": 0,
+            "034.txt": 0,
+        },
+    }
     dir_list, allWordsArr, documentLengths, dfArr = load_documents(path)
 
     dfCounts = compute_df(dfArr)
@@ -143,14 +308,101 @@ def main():
     avgdl = compute_avgdl(documentLengths)
     bm25IDF = compute_bm25_idf(dfCounts, numDocs)
 
-    bm25Result = search_bm25(allWordsArr, documentLengths, bm25IDF, avgdl)
-    print(bm25Result)
+    for query_id, query in queries.items():
+        bm25Result = search_bm25(
+            allWordsArr,
+            documentLengths,
+            bm25IDF,
+            avgdl,
+            query
+        )
+
+        rankingBM = list(bm25Result.keys())
+        rankingsBM[query_id] = rankingBM
+
+        print(query_id, query)
+        print("RR:", reciprocal_rank(rankingBM, qrels[query_id]))
+
+    for query_id, query in queries.items():
+        tfidfResult = search_tfidf(allWordsArr, IDFDict, query)
+
+        rankingTFIDF = list(tfidfResult.keys())
+        rankingsTFIDF[query_id] = rankingTFIDF
+
+        print(query_id, query)
+        print("RR:", reciprocal_rank(rankingTFIDF, qrels[query_id]))
+
+    print("BM25 MRR:", mean_reciprocal_rank(rankingsBM, qrels))
+    print("TF-IDF MRR:", mean_reciprocal_rank(rankingsTFIDF, qrels))
+
+    k_values = [1, 3, 5, 10]
+
+    for k in k_values:
+        print("BM25 P@", k)
+
+        for query_id, ranking in rankingsBM.items():
+            print(query_id, precision_at_k(ranking, qrels[query_id], k))
+
+    for k in k_values:
+        print("BM25 Recall@", k)
+
+        for query_id, ranking in rankingsBM.items():
+            print(query_id, recall_at_k(ranking, qrels[query_id], k))
+
+    print()
+
+    for k in k_values:
+        print("BM25 Mean P@", k, ":", mean_metric_at_k(
+            precision_at_k,
+            rankingsBM,
+            qrels,
+            k
+        ))
+
+    for k in k_values:
+        print("BM25 Mean Recall@", k, ":", mean_metric_at_k(
+            recall_at_k,
+            rankingsBM,
+            qrels,
+            k
+        ))
+
+
+    for k in k_values:
+        print("TF-IDF Mean P@", k, ":", mean_metric_at_k(
+            precision_at_k,
+            rankingsTFIDF,
+            qrels,
+            k
+        ))
+
+    for k in k_values:
+        print("TF-IDF Mean Recall@", k, ":", mean_metric_at_k(
+            recall_at_k,
+            rankingsTFIDF,
+            qrels,
+            k
+        ))
+
+    for k in k_values:
+        print("TF-IDF Mean NDCG@", k, ":", mean_metric_at_k(
+            ndcg_at_k,
+            rankingsTFIDF,
+            qrels,
+            k
+        ))
+
+    for k in k_values:
+        print("BM25 Mean NDCG@", k, ":", mean_metric_at_k(
+            ndcg_at_k,
+            rankingsBM,
+            qrels,
+            k
+        ))
 
     # print_tfidf(allWordsArr, IDFDict)
     # print_tfidf_details(allWordsArr, documentLengths, IDFDict)
 
-    # search_tfidf(allWordsArr, IDFDict)
-    # print(compute_bm25_idf(dfCounts, numDocs))
     # print(allWordsArr)
 
 if __name__ == "__main__":
