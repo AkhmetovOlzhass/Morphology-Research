@@ -12,3 +12,4 @@ venv/
 
 *.log
 .ipynb_checkpoints/
+data/kazqad/corpus
